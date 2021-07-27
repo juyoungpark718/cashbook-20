@@ -1,14 +1,10 @@
-export default class Component {
-  $target: HTMLElement;
+import Component from "./abstract";
+export default abstract class RootComponent extends Component {
   $root: HTMLElement;
-  $props: any;
-  $state: any;
-  constructor($target: HTMLElement, rootSelector: string, $props: any) {
-    this.$target = $target;
-    this.$props = $props;
+  constructor($target: Element, rootSelector: string, $props: any) {
+    super($target, $props);
     this.$root = document.createElement('div');
     this.$root.setAttribute("class", rootSelector);
-    this.setup();
     this.render();
     this.setEvent();
   }
@@ -17,34 +13,22 @@ export default class Component {
   setup() {
     this.$state = {};
   }
-  // render 후 실행되는 함수 (자식 객체 생성하는 코드가 필요)
-  mounted() {}
   // render 이전에 template literal로 string 리턴해주는 함수
-  template() {
-    return '';
-  }
+  mounted() {};
+
+  abstract template(): string;
   // render
   render() {
+    this.$target.innerHTML = '';
+    this.$root.innerHTML = '';
     const virtual = document.createElement('div');
     virtual.innerHTML = this.template();
     this.$root.append(...virtual.children);
-    this.$target.innerHTML = '';
     this.$target.appendChild(this.$root);
     this.mounted();
   }
-  // render를 해야하는가?
-  shouldComponentUpdate(prevState: any, nextState: any) {
-    return true;
-  }
   // 이벤트 등록 (addEvent 사용)
-  setEvent() {}
-  // state 변경되면 render 다시
-  setState(newState: any) {
-    const prevState = this.$state;
-    this.$state = { ...this.$state, ...newState };
-
-    if (this.shouldComponentUpdate(prevState, this.$state)) this.render();
-  }
+  abstract setEvent():void;
   // event add 하기
   addEvent(eventType: string, selector: string, callback: (event?: Event) => void, capture = false) {
     // 없을 때를 방지하기 위해서
