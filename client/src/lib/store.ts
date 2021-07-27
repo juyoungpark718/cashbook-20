@@ -52,6 +52,9 @@ export function createStore<T extends IRootState>(initialState: T, mutations: IM
 
   function commit(payload: ICommit<keyof T>): void {
     const { type, stateName, value } = payload;
+    if (mutations[type] === undefined) {
+      throw new Error(`${type}에 해당하는 mutation이 없습니다.`);
+    }
     const mutatedValue = mutations[type]({ state, value, commit });
     setState(stateName, mutatedValue);
   }
