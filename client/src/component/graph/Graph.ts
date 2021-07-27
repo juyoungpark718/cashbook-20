@@ -1,4 +1,4 @@
-import RootComponent from '../core/RootComponent';
+import RootComponent from '../../core/RootComponent';
 
 export default class Graph extends RootComponent {
   template() {
