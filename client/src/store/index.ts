@@ -1,10 +1,17 @@
+export interface ISubscriber {
+  setState: (state: any) => void;
+}
+
 function Store() {
   type stateType = {
-    isLogin: { value: boolean; subs: Array<any> };
-    year: { value: number; subs: Array<any> };
-    month: { value: number; subs: Array<any> };
-    datas: { value: object; subs: Array<any> };
+    isLogin: { value: boolean; subs: ISubscriber[] };
+    year: { value: number; subs: ISubscriber[] };
+    month: { value: number; subs: ISubscriber[] };
+    datas: { value: any; subs: ISubscriber[] };
   };
+
+  type StateName = keyof stateType;
+
   const state: stateType = {
     isLogin: {
       value: false,
@@ -23,21 +30,25 @@ function Store() {
       subs: [],
     },
   };
-  function getState(stateName: string): any {
-    return eval(`state.${stateName}`).value;
+
+  function getState(stateName: StateName): any {
+    return state[stateName].value;
   }
-  function subscribe(stateName: string, subscriber: any): any {
-    eval(`state.${stateName}`).subs.push(subscriber);
-    return eval(`state.${stateName}`).value;
+
+  function subscribe(stateName: StateName, subscriber: ISubscriber): any {
+    state[stateName].subs.push(subscriber);
+    return state[stateName].value;
   }
-  function setState(stateName: string, value: any): void {
-    eval(`state.${stateName}`).value = value;
+
+  function setState(stateName: StateName, value: any): void {
+    state[stateName].value = value;
     const nextState: { [key: string]: any } = {};
     nextState[stateName] = value;
-    eval(`state.${stateName}`).subs.forEach((subscriber: any) => {
+    state[stateName].subs.forEach((subscriber: ISubscriber) => {
       subscriber.setState(nextState);
     });
   }
+
   function dateChangeHandler(nextRawMonth: number) {
     let nextMonth: number = nextRawMonth;
     if (nextMonth < 1 || nextMonth > 12) {
@@ -54,6 +65,7 @@ function Store() {
     setState('month', nextMonth);
     // 비동기 요청으로 날짜에 맞는 데이터 요청하기
   }
+
   const dispatch = {
     monthLeftClick() {
       const nextRawMonth = state.month.value - 1;
@@ -64,6 +76,7 @@ function Store() {
       dateChangeHandler(nextRawMonth);
     },
   };
+
   return {
     getState,
     subscribe,
