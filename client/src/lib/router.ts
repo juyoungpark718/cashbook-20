@@ -1,10 +1,16 @@
-interface IPath {
+interface routeInfo {
   path: string;
-  component: any;
+  redirect?: string;
+  component?: any;
+  middleware?: () => boolean;
 }
 
-interface IPaths {
-  [path: string]: any;
+interface routes {
+  [key: string]: {
+    redirect?: string;
+    component?: any;
+    middleware?: () => boolean;
+  };
 }
 
 interface IPathParam {
@@ -17,7 +23,7 @@ interface IState {
 
 interface IRouter {
   setView: (target: HTMLElement) => void;
-  setPath: (props: IPath) => void;
+  setPath: (routeInfo: Array<routeInfo>) => void;
   render: (path: string, state?: unknown) => void;
   to: (path: string, state?: IState) => void;
   redirect: (path: string, state?: IState) => void;
@@ -25,7 +31,7 @@ interface IRouter {
 }
 
 function Router(): IRouter {
-  const paths: IPaths = {};
+  const paths: routes = {};
   let view: HTMLElement | null = null;
 
   const init = () => {
@@ -52,17 +58,21 @@ function Router(): IRouter {
   };
 
   const render = (path: string) => {
-    const pathInfo = findPath(path);
+    const pathInfo = paths[path];
     if (!pathInfo) {
       render404();
       return;
     }
-    const component = paths[pathInfo];
-    if (view) {
-      new component(view, 'wrapper', {});
+    if (pathInfo.redirect) {
+      redirect(pathInfo.redirect);
+      return;
     }
-    if (!history.state) {
-      to('/');
+    if (pathInfo.middleware) {
+      const result = pathInfo.middleware();
+      if (!result) return;
+    }
+    if (pathInfo.component) {
+      new pathInfo.component(view, 'content-wrapper', {});
     }
   };
 
@@ -73,23 +83,13 @@ function Router(): IRouter {
 
   const setView = (target: HTMLElement) => (view = target);
 
-  const setPath = (props: IPath): void => {
-    const { path, component } = props;
-    paths[path] = component;
-  };
-
-  const findPath = (path: string): string | null => {
-    const pathname = getPathname(path);
-    const target = Object.keys(paths).find(key => getPathname(key) === pathname);
-    return target ? target : null;
-  };
-
-  const getPathname = (path: string) => {
-    const secondPathIndex = path.indexOf('/', path.indexOf('/') + 1);
-    if (secondPathIndex) {
-      return path.slice(0, secondPathIndex);
-    }
-    return path;
+  const setPath = (routeInfo: Array<routeInfo>): void => {
+    routeInfo.forEach(obj => {
+      paths[obj.path] = {};
+      if (obj.redirect) paths[obj.path].redirect = obj.redirect;
+      if (obj.component) paths[obj.path].component = obj.component;
+      if (obj.middleware) paths[obj.path].middleware = obj.middleware;
+    });
   };
 
   init();
