@@ -34,7 +34,6 @@ module.exports = {
         test: /\.(jpe?g|png|svg|gif)$/,
         loader: 'file-loader',
         options: {
-          publicPath: './dist/',
           name: '[name].[ext]?[hash]',
         },
       },
@@ -43,6 +42,10 @@ module.exports = {
   plugins: [
     new webpack.DefinePlugin({
       API_ENDPOINT: process.env.NODE_ENV === 'development' ? '' : '',
+      OAUTH_URL:
+        process.env.NODE_ENV === 'development'
+          ? 'https://github.com/login/oauth/authorize?client_id=e009a04ee3ec22e75d33'
+          : '',
     }),
     new HtmlWebpackPlugin({
       template: './src/index.html',
