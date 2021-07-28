@@ -14,7 +14,6 @@ export default class Nav extends RootComponent {
   }
   template() {
     const { routeActive, year, month } = this.$state;
-    console.log(routeActive);
     return `
     <h1>우아한 가계부</h1>
     <div class="nav-center">
