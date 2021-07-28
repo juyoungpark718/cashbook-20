@@ -1,5 +1,6 @@
 $danger: #dc3545;
 $baemin-primary: #2ac1bc;
+$baemin-dark: #219a95;
 
 // Category expenditure
 $culture: #d092e2;
@@ -14,3 +15,23 @@ $health: #6ed5eb;
 $salary: #b9d58c;
 $pocket-money: #e6d267;
 $etc-income: #e2b765;
+
+@mixin flex-center() {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+@mixin flex-between() {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+@mixin flex-around() {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+@mixin icon-btn() {
+  border: none;
+  background-color: transparent;
+}
