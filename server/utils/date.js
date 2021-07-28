@@ -14,11 +14,14 @@ const getYearMonth = (year, month) => {
 };
 
 const getDateRange = (year, month) => {
-  const startDate = new Date(`${year}-${month}-2`);
-  const endDate = new Date(`${getYearMonth(year, month)}-1`);
+  if (month) {
+    const startDate = new Date(`${year}-${month}-2`);
+    const endDate = new Date(`${getYearMonth(year, month)}-1`);
+    return [startDate, endDate];
+  }
 
-  console.log(startDate);
-  console.log(endDate);
+  const startDate = new Date(`${year}-1-2`);
+  const endDate = new Date(`${+year + 1}-1-1`);
 
   return [startDate, endDate];
 };
