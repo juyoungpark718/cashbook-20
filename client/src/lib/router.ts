@@ -58,7 +58,8 @@ function Router(): IRouter {
   };
 
   const render = async (path: string) => {
-    const pathInfo = paths[path];
+    const pathsKey = eraseQuery(path);
+    const pathInfo = paths[pathsKey];
     if (!pathInfo) {
       render404();
       return;
@@ -78,6 +79,10 @@ function Router(): IRouter {
     if (pathInfo.component) {
       new pathInfo.component(view, 'content-wrapper', {});
     }
+  };
+  const eraseQuery = (path: string) => {
+    const resultArr = path.split('?');
+    return resultArr[0];
   };
 
   const render404 = () => {

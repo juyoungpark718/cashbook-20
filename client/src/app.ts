@@ -20,6 +20,8 @@ function loginMiddleWare() {
 }
 
 async function oauthMiddleware() {
+  const query = location.search;
+  if (!query) return true;
   return false;
 }
 
