@@ -10,7 +10,7 @@ import User from './component/user/User';
 
 import './scss/app.scss';
 
-const app = qs('#app') as HTMLElement;
+const app = qs('#app');
 
 function loginMiddleWare() {
   if (!store.getState('isLogin')) {
