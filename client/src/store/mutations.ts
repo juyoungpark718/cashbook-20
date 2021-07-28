@@ -20,6 +20,10 @@ const mutations: IMutation<state> = {
     }
     return nextMonth;
   },
+  setRouteActive: ({ value }) => {
+    const routeName = value.split('/')[1];
+    return routeName;
+  },
 };
 
 export default mutations;

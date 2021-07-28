@@ -1,2 +1,12 @@
 @import 'theme';
 @import 'reset';
+
+* {
+  box-sizing: border-box;
+}
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+}
+#app {
+  min-height: 100vh;
+}

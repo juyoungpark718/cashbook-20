@@ -46,7 +46,9 @@ export function createStore<T extends IRootState>(initialState: T, mutations: IM
       [stateName]: value,
     };
     state[stateName].subs.forEach((subscriber: ISubscriber) => {
-      subscriber.setState(nextState);
+      subscriber.setState({
+        [stateName]: value,
+      });
     });
   }
 

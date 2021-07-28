@@ -1,0 +1,129 @@
+@import 'theme';
+
+$nav-height: 150px;
+
+.nav-wrapper {
+  position: relative;
+  width: 100%;
+  height: $nav-height;
+  background-color: $baemin-primary;
+  color: white;
+  padding: 1rem;
+  @include flex-between;
+  > h1 {
+    font-family: 'Do Hyeon', sans-serif;
+    font-size: 1.2rem;
+  }
+  > .nav-center {
+    width: 150px;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    @include flex-around;
+    flex-direction: column;
+    height: 100%;
+    font-family: 'Do Hyeon', sans-serif;
+    > .month {
+      font-size: 2rem;
+    }
+    > .year {
+      font-size: 1.2rem;
+    }
+    > .month-btn {
+      @include icon-btn;
+      color: inherit;
+      font-size: 1.3rem;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      &:hover {
+        cursor: pointer;
+      }
+      &.left {
+        left: 0;
+      }
+      &.right {
+        right: 0;
+      }
+    }
+  }
+  > .toggle-container {
+    position: relative;
+    display: none;
+    > .toggle-btn {
+      @include icon-btn;
+      color: inherit;
+      font-size: 1.5rem;
+      &:hover {
+        cursor: pointer;
+      }
+    }
+    > .toggle-content {
+      background-color: $baemin-dark;
+      border-radius: 6px;
+      color: white;
+      position: absolute;
+      width: 150px;
+      top: 100%;
+      right: 0;
+      display: none;
+      overflow: hidden;
+      &.on {
+        display: block;
+        animation: toggle-on 0.3s forwards;
+      }
+      &.off {
+        display: block;
+        animation: toggle-off 0.3s forwards;
+      }
+      > li {
+        padding: 1rem;
+        &:not(:nth-child(1)) {
+          border-top: 1px solid $baemin-primary;
+        }
+        &:hover {
+          background-color: $baemin-primary;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+  .route-btn {
+    @include icon-btn;
+    color: #ddd;
+    font-size: 1.5rem;
+    padding: 0 0.5em;
+    &.active {
+      color: white;
+    }
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}
+@keyframes toggle-on {
+  from {
+    height: 0;
+  }
+  to {
+    height: 195px;
+  }
+}
+@keyframes toggle-off {
+  to {
+    height: 0;
+  }
+  from {
+    height: 195px;
+  }
+}
+
+@media (max-width: 575px) {
+  .toggle-container {
+    display: block !important;
+  }
+  .route-container {
+    display: none;
+  }
+}

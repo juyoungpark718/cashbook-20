@@ -1,15 +1,16 @@
+import store from '../store';
 interface IRouteInfo {
   path: string;
   redirect?: string;
   component?: any;
-  middleware?: () => boolean;
+  middleware?: () => boolean | Promise<boolean>;
 }
 
 interface IRoutes {
   [key: string]: {
     redirect?: string;
     component?: any;
-    middleware?: () => boolean;
+    middleware?: () => boolean | Promise<boolean>;
   };
 }
 
@@ -57,8 +58,9 @@ function Router(): IRouter {
     history.back();
   };
 
-  const render = (path: string) => {
-    const pathInfo = paths[path];
+  const render = async (path: string) => {
+    const pathsKey = eraseQuery(path);
+    const pathInfo = paths[pathsKey];
     if (!pathInfo) {
       render404();
       return;
@@ -68,12 +70,21 @@ function Router(): IRouter {
       return;
     }
     if (pathInfo.middleware) {
-      const result = pathInfo.middleware();
-      if (!result) return;
+      const funcType = pathInfo.middleware.constructor.name;
+      if (funcType === 'Function' && !pathInfo.middleware()) return;
+      else if (funcType === 'AsyncFunction') {
+        const result = await pathInfo.middleware();
+        if (!result) return;
+      }
     }
     if (pathInfo.component) {
       new pathInfo.component(view, 'content-wrapper', {});
+      store.commit({ type: 'setRouteActive', stateName: 'routeActive', value: pathsKey });
     }
+  };
+  const eraseQuery = (path: string) => {
+    const resultArr = path.split('?');
+    return resultArr[0];
   };
 
   const render404 = () => {
