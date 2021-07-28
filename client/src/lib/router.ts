@@ -1,3 +1,4 @@
+import store from '../store';
 interface IRouteInfo {
   path: string;
   redirect?: string;
@@ -78,6 +79,7 @@ function Router(): IRouter {
     }
     if (pathInfo.component) {
       new pathInfo.component(view, 'content-wrapper', {});
+      store.commit({ type: 'setRouteActive', stateName: 'routeActive', value: pathsKey });
     }
   };
   const eraseQuery = (path: string) => {

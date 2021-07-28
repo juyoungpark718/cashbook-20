@@ -15,6 +15,10 @@ export interface state extends IRootState {
     value: boolean;
     subs: ISubscriber[];
   };
+  routeActive: {
+    value: string;
+    subs: ISubscriber[];
+  };
 }
 
 const store = createStore<state>(
@@ -29,6 +33,10 @@ const store = createStore<state>(
     },
     isLogin: {
       value: false,
+      subs: [] as ISubscriber[],
+    },
+    routeActive: {
+      value: '',
       subs: [] as ISubscriber[],
     },
   },

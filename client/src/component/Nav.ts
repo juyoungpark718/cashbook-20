@@ -1,9 +1,17 @@
 import RootComponent from '../core/RootComponent';
 import router from '../lib/router';
+import store from '../store';
 
 export default class Nav extends RootComponent {
+  setup() {
+    this.$state = {
+      routeActive: store.subscribe('routeActive', this),
+    };
+  }
   template() {
-    return `<button class="home">home</button>
+    const { routeActive } = this.$state;
+    return `<p>${routeActive}</p>
+    <button class="home">home</button>
     <button class="calender">calender</button>
     <button class="graph">graph</button>
     <button class="user">user</button>`;
