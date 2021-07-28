@@ -26,18 +26,21 @@ module.exports = function (sequelize, DataTypes) {
       foreignKey: {
         allowNull: false,
       },
+      as: 'card',
       onDelete: 'CASCADE',
     });
     history.belongsTo(models['User'], {
       foreignKey: {
         allowNull: false,
       },
+      as: 'user',
       onDelete: 'CASCADE',
     });
     history.belongsTo(models['Type'], {
       foreignKey: {
         allowNull: false,
       },
+      as: 'type',
       onDelete: 'CASCADE',
     });
   };
