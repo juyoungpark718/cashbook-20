@@ -1,0 +1,93 @@
+@import 'theme';
+
+.alert-wrapper {
+  position: absolute;
+  top: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+
+  > .alert-box {
+    width: 70vw;
+    max-width: 500px;
+    height: 80px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 5px;
+    animation: box-display 0.3s forwards;
+    &.erase {
+      animation: box-erase 0.3s forwards;
+    }
+    > button {
+      @include icon-btn;
+      padding: 0;
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      &:hover {
+        cursor: pointer;
+      }
+      > svg {
+        width: 20x;
+        height: 20px;
+        > line {
+          stroke-width: 15;
+          stroke-linecap: round;
+        }
+      }
+    }
+    > .alert-pin {
+      width: 100%;
+      height: 6px;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      animation: pin-move 3s forwards linear;
+    }
+    > .alert-content {
+      width: 100%;
+      height: 100%;
+      line-height: 1.3rem;
+      padding: 1rem;
+      @include flex-start;
+    }
+    &.alert-danger {
+      background-color: $danger;
+      color: white;
+      > .alert-pin {
+        background-color: $danger-secondary;
+      }
+      line {
+        stroke: white;
+      }
+    }
+    &.alert-warning {
+      background-color: $warning-secondary;
+      color: black;
+      > .alert-pin {
+        background-color: $warning;
+      }
+      line {
+        stroke: black;
+      }
+    }
+  }
+}
+
+@keyframes box-display {
+  0% {
+    transform: scale(0);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes box-erase {
+  to {
+    transform: translateY(-200%);
+  }
+}
+@keyframes pin-move {
+  to {
+    transform: translateX(-100%);
+  }
+}

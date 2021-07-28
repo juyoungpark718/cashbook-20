@@ -7,6 +7,7 @@ import Home from './component/home/Home';
 import Calendar from './component/calendar/Calender';
 import Graph from './component/graph/Graph';
 import User from './component/user/User';
+import Alert from './component/Alert';
 
 import './scss/app.scss';
 
@@ -14,6 +15,10 @@ const app = qs('#app');
 
 function loginMiddleWare() {
   if (!store.getState('isLogin')) {
+    new Alert(alertWrapper, 'alert-wrapper', {
+      text: '🔒 로그인이 필요합니다. 로그인 페이지로 이동합니다.',
+      color: 'danger',
+    });
     router.redirect('/user');
     return false;
   } else {
@@ -30,8 +35,9 @@ async function oauthMiddleware() {
 
 const navWrapper = document.createElement('nav');
 const pages = document.createElement('div');
+const alertWrapper = document.createElement('div');
 new Nav(navWrapper, 'nav-wrapper', {});
-app.append(navWrapper, pages);
+app.append(navWrapper, pages, alertWrapper);
 
 const routes = [
   { path: '/', redirect: '/home' },
