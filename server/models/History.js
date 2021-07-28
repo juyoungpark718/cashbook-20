@@ -1,3 +1,5 @@
+const Sequelize = require('sequelize');
+
 module.exports = function (sequelize, DataTypes) {
   const history = sequelize.define(
     'History',
@@ -10,9 +12,9 @@ module.exports = function (sequelize, DataTypes) {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
-      created_at: {
+      createdAt: {
         type: DataTypes.DATEONLY,
-        defaultValue: DataTypes.NOW,
+        defaultValue: Sequelize.literal(`(CURRENT_DATE)`),
         allowNull: false,
       },
     },
