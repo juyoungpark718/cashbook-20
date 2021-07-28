@@ -1,4 +1,7 @@
 const History = require('../models')['History'];
+const Type = require('../models')['Type'];
+const Card = require('../models')['Card'];
+const User = require('../models')['User'];
 const { Op } = require('sequelize');
 const { getDateRange } = require('../utils/date');
 
@@ -6,6 +9,7 @@ const findAllHistoryByDate = async ({ userId, year, month }) => {
   const [startDate, endDate] = getDateRange(year, month);
 
   const histories = await History.findAll({
+    attributes: ['id', 'content', 'price', 'createdAt'],
     where: {
       [Op.and]: [
         { userId },
@@ -16,6 +20,11 @@ const findAllHistoryByDate = async ({ userId, year, month }) => {
         },
       ],
     },
+    include: [
+      { model: Type, as: 'type' },
+      { model: User, as: 'user' },
+      { model: Card, as: 'card', attributes: ['id', 'name'], include: ['cardCategory'] },
+    ],
   });
 
   return histories;
