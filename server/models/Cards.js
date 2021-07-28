@@ -17,12 +17,14 @@ module.exports = function (sequelize, DataTypes) {
       foreignKey: {
         allowNull: false,
       },
+      as: 'user',
       onDelete: 'CASCADE',
     });
     card.belongsTo(models['CardCategory'], {
       foreignKey: {
         allowNull: false,
       },
+      as: 'cardCategory',
       onDelete: 'CASCADE',
     });
     card.hasMany(models['History'], {
