@@ -10,7 +10,5 @@ const historyRouter = require('./history');
 router.use(userRouter);
 router.use(categoryRouter);
 router.use(historyRouter);
-router.use(categoryRouter);
-router.use(historyRouter);
 
 module.exports = router;
