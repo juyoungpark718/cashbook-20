@@ -21,6 +21,19 @@ const findAllHistoryByDate = async ({ userId, year, month }) => {
   return histories;
 };
 
+const createHistory = async ({ userId, cardId, content, price, typeId }) => {
+  const history = await History.create({
+    userId,
+    cardId,
+    content,
+    price,
+    typeId,
+  });
+
+  return history;
+};
+
 module.exports = {
   findAllHistoryByDate,
+  createHistory,
 };
