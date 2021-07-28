@@ -26,4 +26,21 @@ router.get('/api/v1/history', privateRouter, async (req, res, next) => {
   }
 });
 
+router.post('/api/v1/history', privateRouter, async (req, res, next) => {
+  try {
+    const { user } = req;
+    const { content, cardId, typeId, price } = req.body;
+
+    if (!(content && cardId && typeId && price)) {
+      res.status(400).json({});
+      return;
+    }
+
+    const history = await historyService.createHistory({ userId: user.id, cardId, content, price, typeId });
+    res.status(201).json({ history });
+  } catch (err) {
+    next(err);
+  }
+});
+
 module.exports = router;
