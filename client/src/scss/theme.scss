@@ -1,4 +1,7 @@
 $danger: #dc3545;
+$danger-secondary: rgb(243, 216, 218);
+$warning: #ffc107;
+$warning-secondary: rgb(251, 230, 165);
 $baemin-primary: #2ac1bc;
 $baemin-dark: #219a95;
 
@@ -29,6 +32,16 @@ $etc-income: #e2b765;
 @mixin flex-around() {
   display: flex;
   justify-content: space-around;
+  align-items: center;
+}
+@mixin flex-start() {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+@mixin flex-end() {
+  display: flex;
+  justify-content: flex-end;
   align-items: center;
 }
 @mixin icon-btn() {
