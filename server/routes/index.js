@@ -4,11 +4,13 @@ const userRouter = require('./user');
 const categoryRouter = require('./category');
 const historyRouter = require('./history');
 const categoryRouter = require('./category');
+const historyRouter = require('./history');
 
 /* GET home page. */
 router.use(userRouter);
 router.use(categoryRouter);
 router.use(historyRouter);
 router.use(categoryRouter);
+router.use(historyRouter);
 
 module.exports = router;
