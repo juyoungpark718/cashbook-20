@@ -4,14 +4,13 @@ dotenv.config();
 const { sequelize } = require('./models');
 const createError = require('http-errors');
 const express = require('express');
-const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 
 const indexRouter = require('./routes/index');
 
 const app = express();
-sequelize.sync();
+if (process.env.NODE_ENV !== 'test') sequelize.sync();
 
 const PORT = process.env.PORT || 3000;
 
@@ -38,8 +37,10 @@ app.use(function (err, req, res, next) {
   res.send('error');
 });
 
-app.listen(PORT, () => {
-  console.log(`Server is running at ${PORT}`);
-});
+if (process.env.NODE_ENV !== 'test') {
+  app.listen(PORT, () => {
+    console.log(`Server is running at ${PORT}`);
+  });
+}
 
 module.exports = app;
