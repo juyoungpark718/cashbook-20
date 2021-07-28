@@ -1,6 +1,7 @@
 const dotenv = require('dotenv');
 dotenv.config();
 
+const { sequelize } = require('./models');
 const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
@@ -10,6 +11,7 @@ const logger = require('morgan');
 const indexRouter = require('./routes/index');
 
 const app = express();
+sequelize.sync();
 
 const PORT = process.env.PORT || 3000;
 
