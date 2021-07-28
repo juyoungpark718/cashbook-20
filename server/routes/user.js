@@ -26,7 +26,7 @@ router.get('/user/auth', async (req, res, next) => {
   }
 });
 
-router.get('/user', privateRouter, async (req, res, next) => {
+router.get('/api/v1/user', privateRouter, async (req, res, next) => {
   try {
     const { user } = req;
     const findedUser = await userService.findUserById(user.id);
@@ -40,7 +40,7 @@ router.get('/user', privateRouter, async (req, res, next) => {
 
     res.status(200).json({
       cards,
-      user,
+      user: findedUser,
     });
   } catch (err) {
     next(err);
