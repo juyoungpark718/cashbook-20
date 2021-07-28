@@ -37,6 +37,7 @@ router.post('/api/v1/history', privateRouter, async (req, res, next) => {
     }
 
     const history = await historyService.createHistory({ userId: user.id, cardId, content, price, typeId });
+
     res.status(201).json({ history });
   } catch (err) {
     next(err);

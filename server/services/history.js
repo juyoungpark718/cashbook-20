@@ -31,15 +31,29 @@ const findAllHistoryByDate = async ({ userId, year, month }) => {
 };
 
 const createHistory = async ({ userId, cardId, content, price, typeId }) => {
-  const history = await History.create({
-    userId,
-    cardId,
-    content,
-    price,
-    typeId,
+  const history = await History.create(
+    {
+      userId,
+      cardId,
+      content,
+      price,
+      typeId,
+    },
+    {
+      include: ['type', 'user', 'card'],
+    }
+  );
+  const finded = await History.findOne({
+    attributes: ['id', 'content', 'price', 'createdAt'],
+    where: { id: history.id },
+    include: [
+      { model: Type, as: 'type' },
+      { model: User, as: 'user' },
+      { model: Card, as: 'card', attributes: ['id', 'name'], include: ['cardCategory'] },
+    ],
   });
 
-  return history;
+  return finded;
 };
 
 module.exports = {
