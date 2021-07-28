@@ -19,12 +19,14 @@ module.exports = function (sequelize, DataTypes) {
   user.associate = function (models) {
     user.hasMany(models['Card'], {
       foreignKey: {
+        name: 'userId',
         allowNull: false,
       },
       onDelete: 'CASCADE',
     });
     user.hasMany(models['History'], {
       foreignKey: {
+        name: 'userId',
         allowNull: false,
       },
       onDelete: 'CASCADE',

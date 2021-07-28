@@ -15,6 +15,7 @@ module.exports = function (sequelize, DataTypes) {
   card.associate = function (models) {
     card.belongsTo(models['User'], {
       foreignKey: {
+        name: 'userId',
         allowNull: false,
       },
       as: 'user',
@@ -22,6 +23,7 @@ module.exports = function (sequelize, DataTypes) {
     });
     card.belongsTo(models['CardCategory'], {
       foreignKey: {
+        name: 'cardCategoryId',
         allowNull: false,
       },
       as: 'cardCategory',
@@ -29,6 +31,7 @@ module.exports = function (sequelize, DataTypes) {
     });
     card.hasMany(models['History'], {
       foreignKey: {
+        name: 'cardId',
         allowNull: false,
       },
       onDelete: 'CASCADE',

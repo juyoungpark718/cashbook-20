@@ -26,6 +26,7 @@ module.exports = function (sequelize, DataTypes) {
   history.associate = function (models) {
     history.belongsTo(models['Card'], {
       foreignKey: {
+        name: 'cardId',
         allowNull: false,
       },
       as: 'card',
@@ -33,6 +34,7 @@ module.exports = function (sequelize, DataTypes) {
     });
     history.belongsTo(models['User'], {
       foreignKey: {
+        name: 'userId',
         allowNull: false,
       },
       as: 'user',
@@ -40,6 +42,7 @@ module.exports = function (sequelize, DataTypes) {
     });
     history.belongsTo(models['Type'], {
       foreignKey: {
+        name: 'typeId',
         allowNull: false,
       },
       as: 'type',
