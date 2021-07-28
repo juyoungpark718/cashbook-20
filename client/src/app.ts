@@ -8,6 +8,8 @@ import Calendar from './component/calendar/Calender';
 import Graph from './component/graph/Graph';
 import User from './component/user/User';
 
+import './scss/app.scss';
+
 const app = qs('#app') as HTMLElement;
 
 function loginMiddleWare() {
