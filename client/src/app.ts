@@ -19,6 +19,10 @@ function loginMiddleWare() {
   }
 }
 
+async function oauthMiddleware() {
+  return false;
+}
+
 const navWrapper = document.createElement('nav');
 const pages = document.createElement('div');
 new Nav(navWrapper, 'nav-wrapper', {});
@@ -27,7 +31,7 @@ app.append(navWrapper, pages);
 const routes = [
   { path: '/', redirect: '/home' },
   { path: '/home', component: Home },
-  { path: '/user', component: User },
+  { path: '/user', component: User, middleware: oauthMiddleware },
   { path: '/graph', component: Graph, middleware: loginMiddleWare },
   { path: '/calendar', component: Calendar, middleware: loginMiddleWare },
 ];

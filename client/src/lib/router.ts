@@ -2,14 +2,14 @@ interface IRouteInfo {
   path: string;
   redirect?: string;
   component?: any;
-  middleware?: () => boolean;
+  middleware?: () => boolean | Promise<boolean>;
 }
 
 interface IRoutes {
   [key: string]: {
     redirect?: string;
     component?: any;
-    middleware?: () => boolean;
+    middleware?: () => boolean | Promise<boolean>;
   };
 }
 
@@ -57,7 +57,7 @@ function Router(): IRouter {
     history.back();
   };
 
-  const render = (path: string) => {
+  const render = async (path: string) => {
     const pathInfo = paths[path];
     if (!pathInfo) {
       render404();
@@ -68,8 +68,12 @@ function Router(): IRouter {
       return;
     }
     if (pathInfo.middleware) {
-      const result = pathInfo.middleware();
-      if (!result) return;
+      const funcType = pathInfo.middleware.constructor.name;
+      if (funcType === 'Function' && !pathInfo.middleware()) return;
+      else if (funcType === 'AsyncFunction') {
+        const result = await pathInfo.middleware();
+        if (!result) return;
+      }
     }
     if (pathInfo.component) {
       new pathInfo.component(view, 'content-wrapper', {});
