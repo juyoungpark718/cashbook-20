@@ -44,7 +44,7 @@ module.exports = {
       API_ENDPOINT: process.env.NODE_ENV === 'development' ? '' : '',
       OAUTH_URL:
         process.env.NODE_ENV === 'development'
-          ? 'https://github.com/login/oauth/authorize?client_id=e009a04ee3ec22e75d33'
+          ? JSON.stringify('https://github.com/login/oauth/authorize?client_id=e009a04ee3ec22e75d33')
           : '',
     }),
     new HtmlWebpackPlugin({
@@ -71,4 +71,7 @@ module.exports = {
     extensions: ['.ts', '.js', '.json', '.scss'],
   },
   devtool: 'source-map',
+  devServer: {
+    historyApiFallback: true,
+  },
 };

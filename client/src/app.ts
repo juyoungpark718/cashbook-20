@@ -22,6 +22,7 @@ function loginMiddleWare() {
 async function oauthMiddleware() {
   const query = location.search;
   if (!query) return true;
+  // 비동기 oauth 로그인 요청 코드 추가해야함..
   return false;
 }
 
