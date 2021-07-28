@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "nodemon app.js",
-    "test": "NODE_ENV=test jest"
+    "test": "NODE_ENV=test jest",
+    "seed:all": "npx sequelize-cli db:seed:all"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
