@@ -11,6 +11,10 @@ export interface state extends IRootState {
     value: number;
     subs: ISubscriber[];
   };
+  isLogin: {
+    value: boolean;
+    subs: ISubscriber[];
+  };
 }
 
 const store = createStore<state>(
@@ -21,6 +25,10 @@ const store = createStore<state>(
     },
     month: {
       value: new Date().getMonth() + 1,
+      subs: [] as ISubscriber[],
+    },
+    isLogin: {
+      value: false,
       subs: [] as ISubscriber[],
     },
   },
