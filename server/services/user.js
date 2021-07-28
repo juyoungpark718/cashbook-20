@@ -1,5 +1,5 @@
 const User = require('../models')['User'];
-const Card = require('../models')['Card'];
+const cardService = require('./card');
 const fetch = require('node-fetch');
 const { generateJWT } = require('../utils/jwt');
 
@@ -46,19 +46,25 @@ const auth = async code => {
       profileUrl,
     },
   });
-  const cards = await Card.findAll({
-    attributes: ['id', 'name'],
-    where: {
-      UserId: user.id,
-    },
-    include: ['cardCategory', 'user'],
-  });
 
+  const cards = await cardService.findAllByUserId(user.id);
   const token = generateJWT({ id: user.id, email: user.email });
 
-  return { created, token, cards };
+  return { created, token, cards, user };
+};
+
+const findUserById = async id => {
+  const user = await User.findOne({
+    where: {
+      id,
+    },
+  });
+  if (!user) return null;
+
+  return user;
 };
 
 module.exports = {
   auth,
+  findUserById,
 };
