@@ -1,5 +1,6 @@
 const User = require('../models')['User'];
 const fetch = require('node-fetch');
+const { generateJWT } = require('../utils/jwt');
 
 const getAccessToken = code => {
   return fetch('https://github.com/login/oauth/access_token', {
@@ -33,7 +34,9 @@ const auth = async code => {
 
   const { message, login: email, avatar_url: profileUrl } = await getUserInfo(accessToken);
 
-  if (message) throw new Error(message);
+  if (message) {
+    return { error: message };
+  }
 
   const [user, created] = await User.findOrCreate({
     where: { email },
@@ -43,9 +46,9 @@ const auth = async code => {
     },
   });
 
-  const token = '';
+  const token = generateJWT({ id: user.id, email: user.email });
 
-  return { user, created, token };
+  return { created, token };
 };
 
 module.exports = {
