@@ -1,11 +1,11 @@
-interface routeInfo {
+interface IRouteInfo {
   path: string;
   redirect?: string;
   component?: any;
   middleware?: () => boolean;
 }
 
-interface routes {
+interface IRoutes {
   [key: string]: {
     redirect?: string;
     component?: any;
@@ -23,7 +23,7 @@ interface IState {
 
 interface IRouter {
   setView: (target: HTMLElement) => void;
-  setPath: (routeInfo: Array<routeInfo>) => void;
+  setPath: (routeInfo: IRouteInfo[]) => void;
   render: (path: string, state?: unknown) => void;
   to: (path: string, state?: IState) => void;
   redirect: (path: string, state?: IState) => void;
@@ -31,7 +31,7 @@ interface IRouter {
 }
 
 function Router(): IRouter {
-  const paths: routes = {};
+  const paths: IRoutes = {};
   let view: HTMLElement | null = null;
 
   const init = () => {
@@ -83,7 +83,7 @@ function Router(): IRouter {
 
   const setView = (target: HTMLElement) => (view = target);
 
-  const setPath = (routeInfo: Array<routeInfo>): void => {
+  const setPath = (routeInfo: IRouteInfo[]): void => {
     routeInfo.forEach(obj => {
       paths[obj.path] = {};
       if (obj.redirect) paths[obj.path].redirect = obj.redirect;
