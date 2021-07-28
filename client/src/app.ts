@@ -1,52 +1,38 @@
 import 'core-js';
-import './scss/app.scss';
-import './scss/app.css';
 import { qs } from './utils';
-import core from './core';
 import store from './store';
+import router from './lib/router';
+import Nav from './component/Nav';
+import Home from './component/home/Home';
+import Calendar from './component/calendar/Calender';
+import Graph from './component/graph/Graph';
+import User from './component/user/User';
+
 const app = qs('#app') as HTMLElement;
 
-class Year extends core.PureComponent {
-  setup() {
-    this.$state = {
-      year: store.subscribe('year', this),
-    };
-  }
-  template() {
-    return `
-      <h1>${this.$state.year}</h1>
-    `;
+function loginMiddleWare() {
+  if (!store.getState('isLogin')) {
+    router.redirect('/user');
+    return false;
+  } else {
+    return true;
   }
 }
 
-class Month extends core.RootComponent {
-  setup() {
-    this.$state = {
-      month: store.subscribe('month', this),
-    };
-  }
+const navWrapper = document.createElement('nav');
+const pages = document.createElement('div');
+new Nav(navWrapper, 'nav-wrapper', {});
+app.append(navWrapper, pages);
 
-  template() {
-    return `
-    <div>
-      ${this.$state.month}
-      <button class="plus-btn">+</button>
-      <button class="minus-btn">-</button>
-    </div>
-    `;
-  }
-  setEvent() {
-    this.addEvent('click', '.plus-btn', e =>
-      store.commit({ type: 'setMonth', stateName: 'month', value: this.$state.month + 1 })
-    );
-    this.addEvent('click', '.minus-btn', e =>
-      store.commit({ type: 'setMonth', stateName: 'month', value: this.$state.month - 1 })
-    );
-  }
-}
-const $year = document.createElement('div');
-new Year($year, {});
-const $month = document.createElement('div');
-new Month($month, '', {});
+const routes = [
+  { path: '/', redirect: '/home' },
+  { path: '/home', component: Home },
+  { path: '/user', component: User },
+  { path: '/graph', component: Graph, middleware: loginMiddleWare },
+  { path: '/calendar', component: Calendar, middleware: loginMiddleWare },
+];
 
-app.append($year, $month);
+router.setView(pages);
+router.setPath(routes);
+
+router.render(location.pathname);
