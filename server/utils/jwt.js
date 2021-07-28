@@ -6,10 +6,10 @@ const JWT_ERROR = {
 };
 
 const generateJWT = payload => {
-  const jwt = JWT.sign({ user: payload }, process.env.JWT_SECRET || 'secret', {
+  const token = jwt.sign({ user: payload }, process.env.JWT_SECRET || 'secret', {
     expiresIn: '1h',
   });
-  return jwt;
+  return token;
 };
 
 const verifyJWT = token => {
