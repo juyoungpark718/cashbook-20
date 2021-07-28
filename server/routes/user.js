@@ -9,13 +9,16 @@ router.get('/user/auth', async (req, res, next) => {
     return;
   }
   try {
-    const { error, user, token, created } = await userService.auth(code);
-    if (error) throw new Error(error);
-    if (created) {
-      res.status(201).json({ user, token });
+    const { error, token, created } = await userService.auth(code);
+    if (error) {
+      res.status(400).json({});
       return;
     }
-    res.status(200).json({ user, token });
+    if (created) {
+      res.status(201).json({ token });
+      return;
+    }
+    res.status(200).json({ token });
   } catch (err) {
     next(err);
   }
