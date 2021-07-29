@@ -44,7 +44,7 @@ module.exports = {
       API_ENDPOINT:
         process.env.NODE_ENV === 'development'
           ? JSON.stringify('http://localhost:3000')
-          : JSON.stringify('http://3.35.140.244/'),
+          : JSON.stringify('http://3.35.140.244:3000'),
       OAUTH_URL:
         process.env.NODE_ENV === 'development'
           ? JSON.stringify('https://github.com/login/oauth/authorize?client_id=e009a04ee3ec22e75d33')
