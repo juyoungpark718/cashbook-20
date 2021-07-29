@@ -9,7 +9,7 @@ router.use(userRouter);
 router.use(categoryRouter);
 router.use(historyRouter);
 router.get('/', (req, res) => {
-  res.send('<h1>hi!!! 자동배포다!!</h1>');
+  res.send('<h1>제발좀..</h1>');
 });
 
 module.exports = router;
