@@ -36,6 +36,9 @@ const mutations: IMutation<state> = {
   updateUserInfo: ({ value }) => {
     return value;
   },
+  setTypes: ({ value }) => {
+    return value;
+  },
 };
 
 export default mutations;

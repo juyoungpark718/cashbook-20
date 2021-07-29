@@ -5,6 +5,10 @@ import { IRootState, ISubscriber } from '../lib/store';
 interface IUserValue {
   cards: string[];
 }
+interface ICategories {
+  id: number;
+  name: string;
+}
 export interface state extends IRootState {
   year: {
     value: number;
@@ -24,6 +28,14 @@ export interface state extends IRootState {
   };
   userInfo: {
     value: IUserValue;
+    subs: ISubscriber[];
+  };
+  cardCategories: {
+    value: ICategories[];
+    subs: ISubscriber[];
+  };
+  types: {
+    value: ICategories[];
     subs: ISubscriber[];
   };
 }
@@ -48,6 +60,14 @@ const store = createStore<state>(
     },
     userInfo: {
       value: {} as IUserValue,
+      subs: [] as ISubscriber[],
+    },
+    cardCategories: {
+      value: [],
+      subs: [] as ISubscriber[],
+    },
+    types: {
+      value: [],
       subs: [] as ISubscriber[],
     },
   },
