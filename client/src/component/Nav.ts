@@ -23,40 +23,39 @@ export default class Nav extends RootComponent {
       <button class="month-btn right"><i class="fas fa-chevron-right"></i></button>
     </div>
     <div class="route-container">
-      <button class="home route-btn ${
+      <button data-route="home" class="route-btn ${
         routeActive === 'home' ? 'active' : ''
       }"><i class="fas fa-file-invoice-dollar"></i></button>
-      <button class="calendar route-btn ${
+      <button data-route="calendar" class="route-btn ${
         routeActive === 'calendar' ? 'active' : ''
       }"><i class="fas fa-calendar-alt"></i></button>
-      <button class="graph route-btn ${
+      <button data-route="graph" class="route-btn ${
         routeActive === 'graph' ? 'active' : ''
       }"><i class="fas fa-chart-pie"></i></button>
-      <button class="user route-btn ${routeActive === 'user' ? 'active' : ''}"><i class="fas fa-user"></i></button>
+      <button data-route="user" class="route-btn ${
+        routeActive === 'user' ? 'active' : ''
+      }"><i class="fas fa-user"></i></button>
     </div>
     <div class="toggle-container">
       <button class="toggle-btn"><i class="fas fa-bars"></i></button>
       <ul class="toggle-content">
-        <li class="home">상세보기</li>
-        <li class="calendar">달력으로 보기</li>
-        <li class="graph">그래프로 보기</li>
-        <li class="user">내 정보</li>
+        <li data-route="home" class="route-btn">상세보기</li>
+        <li data-route="calendar" class="route-btn">달력으로 보기</li>
+        <li data-route="graph" class="route-btn">그래프로 보기</li>
+        <li data-route="user" class="route-btn">내 정보</li>
       </ul>
     </div>
     `;
   }
   setEvent() {
-    this.addEvent('click', '.home', () => {
-      router.to('/');
-    });
-    this.addEvent('click', '.calendar', () => {
-      router.to('/calendar');
-    });
-    this.addEvent('click', '.graph', () => {
-      router.to('/graph');
-    });
-    this.addEvent('click', '.user', () => {
-      router.to('/user');
+    this.addEvent('click', '.route-btn', e => {
+      if (!e || !e.target) return;
+      const target = e.target as HTMLElement;
+      const clickedBtn = target.closest('.route-btn') as HTMLElement;
+      if (!clickedBtn || !clickedBtn.dataset.route) return;
+      const nextRoute = '/' + clickedBtn.dataset.route;
+      router.to(nextRoute);
+      toggleOff(e);
     });
     this.addEvent('click', '.month-btn.left', () => {
       store.commit({ type: 'setMonth', stateName: 'month', value: this.$state.month - 1 });
@@ -68,7 +67,7 @@ export default class Nav extends RootComponent {
       const toggleContent = qs('.toggle-content');
       const app = qs('#app');
       toggleContent.classList.add('on');
-      app.addEventListener('click', toggleOf, true);
+      app.addEventListener('click', toggleOff, true);
     });
   }
   shouldComponentUpdate(prevState: any, nextState: any) {
@@ -76,7 +75,7 @@ export default class Nav extends RootComponent {
       const active = nextState.routeActive;
       const routeBtns = qsa('.route-btn');
       routeBtns.forEach(routeBtn => {
-        if (routeBtn.classList.contains(active)) {
+        if (routeBtn.dataset.route === active) {
           routeBtn.classList.add('active');
         } else {
           routeBtn.classList.remove('active');
@@ -93,11 +92,10 @@ export default class Nav extends RootComponent {
   }
 }
 
-function toggleOf(e: any) {
-  if (e && e.target && e.target.closest('.toggle-content')) {
-    return;
+function toggleOff(e: any) {
+  if (e && e.target && !e.target.closest('.toggle-content')) {
+    e.stopPropagation();
   }
-  e.stopPropagation();
   const toggleContent = qs('.toggle-content');
   const app = qs('#app');
   toggleContent.classList.remove('on');
@@ -105,5 +103,5 @@ function toggleOf(e: any) {
   setTimeout(() => {
     toggleContent.classList.remove('off');
   }, 300);
-  app.removeEventListener('click', toggleOf, true);
+  app.removeEventListener('click', toggleOff, true);
 }

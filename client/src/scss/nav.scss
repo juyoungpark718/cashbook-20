@@ -89,7 +89,7 @@ $nav-height: 150px;
       }
     }
   }
-  .route-btn {
+  .route-btn:not(li) {
     @include icon-btn;
     color: #ddd;
     font-size: 1.5rem;
