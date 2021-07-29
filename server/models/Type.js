@@ -15,6 +15,7 @@ module.exports = function (sequelize, DataTypes) {
   type.associate = function (models) {
     type.hasMany(models['History'], {
       foreignKey: {
+        name: 'typeId',
         allowNull: false,
       },
       onDelete: 'CASCADE',

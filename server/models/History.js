@@ -1,3 +1,5 @@
+const Sequelize = require('sequelize');
+
 module.exports = function (sequelize, DataTypes) {
   const history = sequelize.define(
     'History',
@@ -10,9 +12,9 @@ module.exports = function (sequelize, DataTypes) {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
-      created_at: {
+      createdAt: {
         type: DataTypes.DATEONLY,
-        defaultValue: DataTypes.NOW,
+        defaultValue: Sequelize.literal(`(CURRENT_DATE)`),
         allowNull: false,
       },
     },
@@ -24,6 +26,7 @@ module.exports = function (sequelize, DataTypes) {
   history.associate = function (models) {
     history.belongsTo(models['Card'], {
       foreignKey: {
+        name: 'cardId',
         allowNull: false,
       },
       as: 'card',
@@ -31,6 +34,7 @@ module.exports = function (sequelize, DataTypes) {
     });
     history.belongsTo(models['User'], {
       foreignKey: {
+        name: 'userId',
         allowNull: false,
       },
       as: 'user',
@@ -38,6 +42,7 @@ module.exports = function (sequelize, DataTypes) {
     });
     history.belongsTo(models['Type'], {
       foreignKey: {
+        name: 'typeId',
         allowNull: false,
       },
       as: 'type',

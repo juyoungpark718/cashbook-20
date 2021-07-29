@@ -4,7 +4,7 @@ const findAllByUserId = async userId => {
   const cards = await Card.findAll({
     attributes: ['id', 'name'],
     where: {
-      UserId: userId,
+      userId,
     },
     include: ['cardCategory'],
   });

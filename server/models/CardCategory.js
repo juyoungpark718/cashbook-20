@@ -15,6 +15,7 @@ module.exports = function (sequelize, DataTypes) {
   cardCategory.associate = function (models) {
     cardCategory.hasMany(models['Card'], {
       foreignKey: {
+        name: 'cardCategoryId',
         allowNull: false,
       },
       onDelete: 'CASCADE',
