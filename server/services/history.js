@@ -30,7 +30,7 @@ const findAllHistoryByDate = async ({ userId, year, month }) => {
   return histories;
 };
 
-const createHistory = async ({ userId, cardId, content, price, typeId }) => {
+const createHistory = async ({ userId, cardId, content, price, typeId, createdAt }) => {
   const history = await History.create(
     {
       userId,
@@ -38,6 +38,7 @@ const createHistory = async ({ userId, cardId, content, price, typeId }) => {
       content,
       price,
       typeId,
+      createdAt,
     },
     {
       include: ['type', 'user', 'card'],
