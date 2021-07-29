@@ -30,7 +30,7 @@ const dayOfMonth = (month, isLeap = false) => {
   }
 };
 
-const createDayObj = (year, month) => {
+const makeDayObj = (year, month) => {
   const day = dayOfMonth(month, isLeapYear(year));
   const dayObj = {};
   for (let i = 1; i <= day; i++) {
@@ -39,7 +39,7 @@ const createDayObj = (year, month) => {
   return dayObj;
 };
 
-const createMonthObj = year => {
+const makeMonthObj = year => {
   const month = 12;
   const monthObj = {};
   for (let i = 1; i <= month; i++) {
@@ -77,6 +77,6 @@ const getDateRange = (year, month) => {
 module.exports = {
   validDate,
   getDateRange,
-  createDayObj,
-  createMonthObj,
+  makeDayObj,
+  makeMonthObj,
 };

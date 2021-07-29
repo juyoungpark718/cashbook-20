@@ -3,16 +3,16 @@ const Type = require('../models')['Type'];
 const Card = require('../models')['Card'];
 const User = require('../models')['User'];
 const { Op } = require('sequelize');
-const { getDateRange, createDayObj, createMonthObj } = require('../utils/date');
+const { getDateRange, makeDayObj, makeMonthObj } = require('../utils/date');
 
-const createHistoryPerDay = (year, month, histories) => {
-  const dayObj = createDayObj(year, month);
+const groupingHistoryPerDay = (year, month, histories) => {
+  const dayObj = makeDayObj(year, month);
   histories.forEach(history => dayObj[history.createdAt].push(history));
   return dayObj;
 };
 
-const createHistoryPerMonth = (year, histories) => {
-  let monthObj = createMonthObj(year);
+const groupingHistoryPerMonth = (year, histories) => {
+  let monthObj = makeMonthObj(year);
   monthObj = histories.reduce((acc, val) => {
     const { price, createdAt } = val;
     const [year, month] = createdAt.split('-');
@@ -46,10 +46,10 @@ const findAllHistoryByDate = async ({ userId, year, month }) => {
   });
 
   if (month) {
-    const historiesPerDay = createHistoryPerDay(year, month, histories);
+    const historiesPerDay = groupingHistoryPerDay(year, month, histories);
     return historiesPerDay;
   } else {
-    const historiesPerMonth = createHistoryPerMonth(year, histories);
+    const historiesPerMonth = groupingHistoryPerMonth(year, histories);
     return historiesPerMonth;
   }
 };
