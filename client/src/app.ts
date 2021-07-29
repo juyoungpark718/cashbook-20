@@ -2,7 +2,7 @@ import 'core-js';
 import { qs } from './utils';
 import constant from './constant';
 import store from './store';
-import { oauthLogin, getCategories } from './lib/api';
+import { oauthLogin, getCategories, initUser } from './lib/api';
 import router from './lib/router';
 import Nav from './component/Nav';
 import Home from './component/home/Home';
@@ -58,6 +58,11 @@ async function init() {
   const categories = await getCategories();
   store.commit({ type: 'setTypes', stateName: 'types', value: categories.types });
   store.commit({ type: 'setTypes', stateName: 'cardCategories', value: categories.cardCategories });
+  const infoResponse = await initUser();
+  if (infoResponse && infoResponse.status === 200) {
+    const userInfo = await infoResponse.json();
+    store.commit({ type: 'loginSuccess', stateName: 'isLogin', value: userInfo });
+  }
   app.append(navWrapper, pages, alertWrapper);
   router.setView(pages);
   router.setPath(routes);

@@ -15,5 +15,14 @@ async function getCategories() {
   const res = await fetch(url);
   return await res.json();
 }
+async function initUser() {
+  const token = localStorage.getItem('token');
+  if (!token) return false;
+  const headers = {
+    Authorization: `Bearer ${token}`,
+  };
+  const url = api_endpoint + `/api/v1/user`;
+  return await fetch(url, { headers });
+}
 
-export { oauthLogin, getCategories };
+export { oauthLogin, getCategories, initUser };
