@@ -1,5 +1,6 @@
 export interface ISubscriber {
   setState: (state: any) => void;
+  $target: Element;
 }
 
 export interface IRootState {
@@ -51,6 +52,15 @@ export function createStore<T extends IRootState>(initialState: T, mutations: IM
       });
     });
   }
+  function resetSubscriber(): void {
+    for (const [stateName, info] of Object.entries(state)) {
+      const currentSubs: ISubscriber[] = [];
+      info.subs.forEach((subscriber: ISubscriber) => {
+        if (subscriber.$target.closest('nav')) currentSubs.push(subscriber);
+      });
+      state[stateName].subs = currentSubs;
+    }
+  }
 
   function commit(payload: ICommit<keyof T>): void {
     const { type, stateName, value } = payload;
@@ -65,5 +75,6 @@ export function createStore<T extends IRootState>(initialState: T, mutations: IM
     getState,
     subscribe,
     commit,
+    resetSubscriber,
   };
 }

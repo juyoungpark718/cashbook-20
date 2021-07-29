@@ -8,7 +8,7 @@ export default class User extends RootComponent {
   }
   setup() {
     this.$state = {
-      login: store.subscribe('isLogin', this),
+      login: store.getState('isLogin'),
     };
   }
   setEvent() {
