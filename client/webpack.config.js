@@ -49,6 +49,7 @@ module.exports = {
     }),
     new HtmlWebpackPlugin({
       template: './src/index.html',
+      favicon: './src/assets/favicon.ico',
       templateParameters: {
         env: process.env.NODE_ENV === 'development' ? '(개발용)' : '', // 빌드 환경에 따른 html 타이틀 출력 변경
       },
