@@ -24,6 +24,18 @@ const mutations: IMutation<state> = {
     const routeName = value.split('/')[1];
     return routeName;
   },
+  loginSuccess: ({ value, commit }) => {
+    if (value.token) localStorage.setItem('token', value.token);
+    const commitValue = {
+      ...value.user,
+      ...value.cards,
+    };
+    commit({ type: 'updateUserInfo', stateName: 'userInfo', value: commitValue });
+    return true;
+  },
+  updateUserInfo: ({ value }) => {
+    return value;
+  },
 };
 
 export default mutations;

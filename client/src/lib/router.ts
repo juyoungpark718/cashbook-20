@@ -78,6 +78,7 @@ function Router(): IRouter {
       }
     }
     if (pathInfo.component) {
+      store.resetSubscriber();
       new pathInfo.component(view, 'content-wrapper', {});
       store.commit({ type: 'setRouteActive', stateName: 'routeActive', value: pathsKey });
     }
