@@ -1,6 +1,8 @@
 import 'core-js';
 import { qs } from './utils';
+import constant from './constant';
 import store from './store';
+import { oauthLogin } from './lib/api';
 import router from './lib/router';
 import Nav from './component/Nav';
 import Home from './component/home/Home';
@@ -16,8 +18,8 @@ const app = qs('#app');
 function loginMiddleWare() {
   if (!store.getState('isLogin')) {
     new Alert(alertWrapper, 'alert-wrapper', {
-      text: '🔒 로그인이 필요합니다. 로그인 페이지로 이동합니다.',
-      color: 'danger',
+      text: constant.LOGIN_REQUIRED,
+      color: 'warning',
     });
     router.redirect('/user');
     return false;
@@ -29,8 +31,18 @@ function loginMiddleWare() {
 async function oauthMiddleware() {
   const query = location.search;
   if (!query) return true;
-  // 비동기 oauth 로그인 요청 코드 추가해야함..
-  return false;
+  try {
+    const result = await oauthLogin(query);
+    store.commit({ type: 'loginSuccess', stateName: 'isLogin', value: result });
+  } catch (err) {
+    new Alert(alertWrapper, 'alert-wrapper', {
+      text: err.message,
+      color: 'danger',
+    });
+  } finally {
+    router.redirect('/user');
+    return false;
+  }
 }
 
 const navWrapper = document.createElement('nav');

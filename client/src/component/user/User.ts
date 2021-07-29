@@ -3,12 +3,20 @@ import store from '../../store';
 
 export default class User extends RootComponent {
   template() {
-    const { login } = this.$state;
-    return `<p>${login ? 'Hi, user' : `<button class="oauth-btn">github login</button>`}</p>`;
+    const { login, userInfo } = this.$state;
+    if (login) {
+      return `
+        <img src="${userInfo.profileUrl}">
+        <h2>반가워요, ${userInfo.email}님.</h2>
+      `;
+    } else {
+      return `<button class="oauth-btn">github login</button>`;
+    }
   }
   setup() {
     this.$state = {
-      login: store.getState('isLogin'),
+      login: store.subscribe('isLogin', this),
+      userInfo: store.subscribe('userInfo', this),
     };
   }
   setEvent() {
