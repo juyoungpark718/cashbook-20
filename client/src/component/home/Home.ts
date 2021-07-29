@@ -8,6 +8,8 @@ export default class Home extends RootComponent {
   setup() {
     this.$state = {
       month: store.subscribe('month', this),
+      cardCategories: store.getState('cardCategories'),
+      types: store.getState('types'),
     };
   }
   setEvent() {}
