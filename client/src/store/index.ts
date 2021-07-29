@@ -2,6 +2,9 @@ import { createStore } from '../lib/store';
 import mutations from './mutations';
 import { IRootState, ISubscriber } from '../lib/store';
 
+interface IUserValue {
+  cards: string[];
+}
 export interface state extends IRootState {
   year: {
     value: number;
@@ -17,6 +20,10 @@ export interface state extends IRootState {
   };
   routeActive: {
     value: string;
+    subs: ISubscriber[];
+  };
+  userInfo: {
+    value: IUserValue;
     subs: ISubscriber[];
   };
 }
@@ -37,6 +44,10 @@ const store = createStore<state>(
     },
     routeActive: {
       value: '',
+      subs: [] as ISubscriber[],
+    },
+    userInfo: {
+      value: {} as IUserValue,
       subs: [] as ISubscriber[],
     },
   },
