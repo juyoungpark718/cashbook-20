@@ -20,7 +20,7 @@ router.get('/api/v1/history', privateRouter, async (req, res, next) => {
 
   try {
     const histories = await historyService.findAllHistoryByDate({ userId: user.id, year, month });
-    res.status(200).json({ histories });
+    res.status(200).json({ ...histories });
   } catch (err) {
     next(err);
   }
